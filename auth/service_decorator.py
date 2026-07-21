@@ -57,6 +57,10 @@ from auth.scopes import (
     TASKS_READONLY_SCOPE,
     CONTACTS_SCOPE,
     CONTACTS_READONLY_SCOPE,
+    DIRECTORY_READONLY_SCOPE,
+    ADMIN_DIRECTORY_USER_READONLY_SCOPE,
+    ADMIN_DIRECTORY_GROUP_READONLY_SCOPE,
+    ADMIN_DIRECTORY_GROUP_MEMBER_READONLY_SCOPE,
     CUSTOM_SEARCH_SCOPE,
     SCRIPT_PROJECTS_SCOPE,
     SCRIPT_PROJECTS_READONLY_SCOPE,
@@ -526,6 +530,7 @@ SERVICE_CONFIGS = {
     "slides": {"service": "slides", "version": "v1"},
     "tasks": {"service": "tasks", "version": "v1"},
     "people": {"service": "people", "version": "v1"},
+    "admin_directory": {"service": "admin", "version": "directory_v1"},
     "customsearch": {"service": "customsearch", "version": "v1"},
     "script": {"service": "script", "version": "v1"},
 }
@@ -573,6 +578,11 @@ SCOPE_GROUPS = {
     # Contacts scopes
     "contacts": CONTACTS_SCOPE,
     "contacts_read": CONTACTS_READONLY_SCOPE,
+    # Domain Directory scopes
+    "directory_read": DIRECTORY_READONLY_SCOPE,
+    "admin_user_read": ADMIN_DIRECTORY_USER_READONLY_SCOPE,
+    "admin_group_read": ADMIN_DIRECTORY_GROUP_READONLY_SCOPE,
+    "admin_group_member_read": ADMIN_DIRECTORY_GROUP_MEMBER_READONLY_SCOPE,
     # Custom Search scope
     "customsearch": CUSTOM_SEARCH_SCOPE,
     # Apps Script scopes

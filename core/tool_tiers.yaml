@@ -154,6 +154,15 @@ contacts:
     - manage_contacts_batch
     - manage_contact_group
 
+directory:
+  core:
+    - search_directory_people
+    - list_directory_groups
+    - list_group_members
+  extended:
+    - list_directory_people
+  complete: []
+
 search:
   core:
     - search_custom
