@@ -89,8 +89,27 @@ DEFAULT_CREDENTIALS_DIR = get_default_credentials_dir()
 def _build_authorized_http(
     credentials: Credentials, timeout: int = 30
 ) -> google_auth_httplib2.AuthorizedHttp:
-    """Return credentialed HTTP with an explicit socket timeout."""
+    """Return credentialed HTTP with an explicit socket timeout.
+
+    308 must not be treated as a redirect. Drive (and YouTube) return
+    ``308 Resume Incomplete`` after every chunk of a resumable upload, and that
+    response carries no ``Location:`` header -- httplib2 (>= 0.19, which keeps 308
+    in ``redirect_codes``) then raises
+    ``RedirectMissingLocation: Redirected but the response is missing a Location: header``
+    instead of letting googleapiclient read it as "send the next chunk".
+
+    googleapiclient.http.build_http() already does exactly this, but that helper is
+    only used when a service is built with ``credentials=``. This module builds its
+    own Http to set a socket timeout, so the same treatment has to be repeated here
+    -- otherwise every upload larger than one chunk (5 MB) fails, while smaller ones
+    pass because they never produce a 308.
+    """
     http = httplib2.Http(timeout=timeout)
+    try:
+        http.redirect_codes = http.redirect_codes - {308}
+    except AttributeError:
+        # httplib2 < 0.19 has no per-instance redirect_codes and never redirected 308.
+        pass
     return google_auth_httplib2.AuthorizedHttp(credentials, http=http)
 
 
