@@ -31,10 +31,13 @@ drive:
     - import_to_google_slides
     - import_to_google_sheets
     - get_drive_shareable_link
+    # Rename / move / trash. Without it the assistant can create files and folders
+    # but cannot undo its own mistakes, and a human has to clean up by hand.
+    # Sharing and permission tools stay in `extended` on purpose.
+    - update_drive_file
   extended:
     - list_drive_items
     - copy_drive_file
-    - update_drive_file
     - manage_drive_access
     - set_drive_file_permissions
   complete:
